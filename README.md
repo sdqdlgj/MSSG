@@ -99,5 +99,5 @@ If you find our paper or code useful in your research, please cite:
 We would like to thank the authors of the following works for open-sourcing their code, which provided invaluable insights:
 
 - [TalKNet](https://github.com/TaoRuijie/TalkNet-ASD)  
-- [SPELL](https://github.com/SRA2/SPELLD)  
+- [SPELL](https://github.com/SRA2/SPELL)  
 - [Light-ASD](https://github.com/Junhua-Liao/Light-ASD)
