@@ -61,8 +61,8 @@ bash graph_init.sh 0
   - Note: A pretrained model is already provided in this repository, so this step is optional.  
   - Averaging multiple models can further improve performance.  
   - Pretrained models are stored in `./predata/pretrain_model`.  
-- **Steps 1–7**: Generate graph node embeddings using different pretrained models.  
-- **Step 8**: Construct the graph.  
+- **Steps 2–8**: Generate graph node embeddings using different pretrained models.  
+- **Step 9**: Construct the graph.  
 
 ---
 

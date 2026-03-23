@@ -45,8 +45,19 @@ if [ $stage -eq 0 ]; then
  
 fi
 
+if [ $stage -eq 1 ]; then 
+    aug_dir=$AVADataPath/clips_audios_aug
+    mkdir -p $aug_dir
+    python ./local/get_clip_info.py --dataPathAVA $AVADataPath --out_path ./predata/clip_info
+    python ./local/get_csv_split.py --dataPathAVA $AVADataPath --out_path ./predata/csv_split
+    python ./local/prepare_aug_audio.py --dataPathAVA $AVADataPath \
+                                        --clip_info_path ./predata/clip_info \
+                                        --out_path $aug_dir
+
+fi 
+
 # initialize node e_face in Eq.(12)
-if [ $stage -eq 1 ]; then
+if [ $stage -eq 2 ]; then
     GPU=1
     python ./local/get_clip_info.py --dataPathAVA $AVADataPath --out_path ./predata/clip_info
     CUDA_VISIBLE_DEVICES=${GPU} python ./local/extract_face_feats_average.py --dataPathAVA $AVADataPath \
@@ -57,7 +68,7 @@ if [ $stage -eq 1 ]; then
 fi
 
 # initialize node e_bg in Eq.(12)
-if [ $stage -eq 2 ]; then
+if [ $stage -eq 3 ]; then
     GPU=0
     CUDA_VISIBLE_DEVICES=${GPU} python ./local/extract_background_feats.py --dataPathAVA $AVADataPath \
                                    --clip_info_path ./predata/clip_info \
@@ -69,7 +80,7 @@ if [ $stage -eq 2 ]; then
 fi
 
 # initialize node e_smallface in Eq.(12)
-if [ $stage -eq 3 ]; then
+if [ $stage -eq 4 ]; then
     GPU=1
     CUDA_VISIBLE_DEVICES=${GPU} python ./local/extract_face_small_feats_average.py --dataPathAVA $AVADataPath \
                             --clip_info_path ./predata/clip_info \
@@ -80,7 +91,7 @@ if [ $stage -eq 3 ]; then
 fi
 
 # initialize node e_body in Eq.(12)
-if [ $stage -eq 4 ]; then 
+if [ $stage -eq 5 ]; then 
     GPU=1
     CUDA_VISIBLE_DEVICES=${GPU} python ./local/extract_face_body_feats_average.py --dataPathAVA $AVADataPath \
                         --clip_info_path ./predata/clip_info \
@@ -91,7 +102,7 @@ fi
 
 
 # initialize node e_head in Eq.(12)
-if [ $stage -eq 5 ]; then
+if [ $stage -eq 6 ]; then
     GPU=0
     CUDA_VISIBLE_DEVICES=${GPU} python ./local/extract_face_large_feats_average.py --dataPathAVA $AVADataPath \
                                 --clip_info_path ./predata/clip_info \
@@ -102,7 +113,7 @@ fi
 
 
 # initialize node e_mouse in Eq.(12)
-if [ $stage -eq 6 ]; then
+if [ $stage -eq 7 ]; then
     GPU=1
     CUDA_VISIBLE_DEVICES=${GPU} python ./local/extract_face_down_feats_average.py --dataPathAVA $AVADataPath \
                             --clip_info_path ./predata/clip_info \
@@ -112,7 +123,7 @@ if [ $stage -eq 6 ]; then
 fi
 
 # initialize node e_largebody in Eq.(12)
-if [ $stage -eq 7 ]; then
+if [ $stage -eq 8 ]; then
     GPU=0
     CUDA_VISIBLE_DEVICES=${GPU} python ./local/extract_face_body_large_feats_average.py --dataPathAVA $AVADataPath \
                             --clip_info_path ./predata/clip_info \
@@ -122,7 +133,7 @@ if [ $stage -eq 7 ]; then
 fi
 
 # generate speaker graph G
-if [ $stage -eq 8 ]; then
+if [ $stage -eq 9 ]; then
     mkdir -p ./predata/video_size_info
     python ./local/get_size_of_each_video.py --AVADataPath $AVADataPath --out_path=./predata/video_size_info
     nj=33
